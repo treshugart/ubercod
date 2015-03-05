@@ -36,7 +36,7 @@ function hello (exclamation, str) {
 
 var app = uber({
   // The dollar "$" means "singleton", or not transient.
-  // Uppercase "D" means "Constructor", do not call as a function.
+  // Uppercase "P" means "Constructor", do not call as a function.
   // "$Phrase" becomes "phrase" because the name is normalised after parsing
   // for meaningful tokens.
   $Phrase: Phrase,
