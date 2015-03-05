@@ -28,8 +28,8 @@ function exclamation (str) {
 }
 
 // "exclamation" will resolve to a dependency and be automatically injected.
-// This means that you can call it like "hello('string')" and "string" would
-// be passed as the second argument automatically.
+// This means that you can call it like "app.hello({ str: 'string' })" and
+// "string" would be passed as the second argument automatically.
 function hello (exclamation, str) {
   return 'Hello, ' + exclamation(str);
 }
@@ -49,7 +49,7 @@ var app = uber({
 });
 
 // "Hello, World!"
-app.phrase.hello('World');
+app.phrase.hello({ str: 'World' });
 ```
 
 You can even chain containers:
