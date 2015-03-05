@@ -1,0 +1,27 @@
+{
+  "name": "ubercod",
+  "version": "0.0.0",
+  "description": "Tiny JavaScript DI container that automatically resolves dependencies based on simple naming conventions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/treshugart/ubercod"
+  },
+  "keywords": [
+    "di",
+    "ioc",
+    "dependency",
+    "injection",
+    "inversion",
+    "control"
+  ],
+  "author": "Trey Shugart <treshugar@gmail.com> (http://treshugart.github.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/treshugart/ubercod/issues"
+  },
+  "homepage": "https://github.com/treshugart/ubercod"
+}
