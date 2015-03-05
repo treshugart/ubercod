@@ -101,7 +101,8 @@ function register (that, name, func) {
   name = isSingleton ? name.substring(1) : name;
 
   // Ensure if it is labelled as a constructor to make the first character
-  // lowercase because it will be called like a function.
+  // lowercase because it will be called like a function or accessed like
+  // a property.
   name = name[0].toLowerCase() + name.substring(1);
 
   // Defines a property that returns the dependency or if it's transient, a
