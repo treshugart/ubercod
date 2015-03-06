@@ -33,7 +33,7 @@ mocha.describe('transients', function () {
 
 mocha.describe('constructors', function () {
   mocha.it('should instantiate constructors', function () {
-    function Ctor () {};
+    function Ctor () {}
 
     var di = uber({
       Ctor1: Ctor,
@@ -42,7 +42,7 @@ mocha.describe('constructors', function () {
 
     expect(di.ctor1).to.be.an.instanceof(Ctor);
     expect(di.ctor2()).to.be.an.instanceof(Ctor);
-  })
+  });
 });
 
 mocha.describe('functions', function () {
@@ -54,7 +54,7 @@ mocha.describe('functions', function () {
 
     expect(di.func1).to.equal(true);
     expect(di.func2()).to.equal(true);
-  })
+  });
 });
 
 mocha.describe('dependencies', function () {
