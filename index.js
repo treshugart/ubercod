@@ -60,15 +60,17 @@ function register (that, name, func) {
   // in the container.
   function resolveDeps (args) {
     return deps.map(function (dep) {
-      if (typeof dep === 'number') {
+      if (args && args.length && typeof dep === 'number') {
         return args[dep];
       }
 
-      if (that[dep]) {
-        if (typeof that[dep] === 'function') {
-          return that[dep]();
+      dep = that[dep];
+
+      if (dep) {
+        if (typeof dep === 'function') {
+          return dep();
         } else {
-          return that[dep];
+          return dep;
         }
       }
     });
@@ -76,16 +78,16 @@ function register (that, name, func) {
 
   // Returns a dependency. It checks to see if it's a constructor function
   // or a regular function and calls it accordingly.
-  function getInst (args) {
+  function getInst (bind, args) {
     args = resolveDeps(args);
-    return isCtor ? applyCtor(func, args) : func.apply(process, args);
+    return isCtor ? applyCtor(func, args) : func.apply(bind, args);
   }
 
   // Resolves the dependency based on if it's a singleton or transient
   // dependency. Both forms allow arguments. If it's a singleton, then no
   // arguments are allowed. If it's transient, named arguments are allowed.
-  function resolveInst (args) {
-    return isTransient ? getInst(args) : cache || (cache = getInst());
+  function resolveInst (bind, args) {
+    return isTransient ? getInst(bind, args) : cache || (cache = getInst(bind));
   }
 
   // Initialises or re-initialises the state of the dependency.
@@ -119,7 +121,7 @@ function register (that, name, func) {
 
     get: function () {
       return isTransient ? function () {
-        return resolveInst(arguments);
+        return resolveInst(this, arguments);
       } : resolveInst();
     },
 
