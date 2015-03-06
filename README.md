@@ -19,17 +19,19 @@ The API consists of a single function that takes an object. The keys are the dep
 ```js
 var uber = require('ubercod');
 var app = uber({
-  // The dollar "$" means "singleton", or not transient.
   // Uppercase "P" means "Constructor", do not call as a function.
   // "$Phrase" becomes "phrase" because the name is normalised after parsing
   // for meaningful tokens. The "hello" argument resolves to the "hello"
-  // dependency since their names match
-  $Phrase: function (hello) {
+  // dependency since their names match.
+  // When an argument is prefixed with "$" it means that it should look for a
+  // dependency with the same name.
+  Phrase: function ($hello) {
     this.hello = hello;
   },
 
+  // The dollar "$" means "transient", or not a singleton.
   // Lowercase "e" means "function", or "not constructible".
-  exclamation: function (str) {
+  $exclamation: function (str) {
     return str + '!';
   },
 
@@ -38,8 +40,8 @@ var app = uber({
   // matches a dependency with the same name will and be automatically injected.
   // This means that you can call it like "app.hello({ str: 'string' })" and
   // "string" would be passed as the second argument automatically.
-  hello: function (exclamation, str) {
-    return 'Hello, ' + exclamation(str);
+  $hello: function ($exclamation, str) {
+    return 'Hello, ' + exclamation({ str: str });
   }
 });
 

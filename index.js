@@ -2,8 +2,8 @@
 
 var regexArgComments = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 var regexArgNames = /([^\s,]+)/g;
-var regexSingleton = /^\$/;
-var regexCtor = /^[A-Z]*/;
+var regexCtor = /^\$?[A-Z]/;
+var regexTransient = /^\$/;
 
 function parseArgsFromFunc (func) {
   var fnStr = func
@@ -37,7 +37,7 @@ function register (that, name, func) {
   var cache;
   var deps;
   var isCtor;
-  var isSingleton;
+  var isTransient;
 
   // If the function to passed in is not a function, it is wrapped in a
   // function that returns the value. This allows any value other than a
@@ -82,7 +82,7 @@ function register (that, name, func) {
   // dependency. Both forms allow arguments. If it's a singleton, then no
   // arguments are allowed. If it's transient, named arguments are allowed.
   function resolveInst (args) {
-    return isSingleton ? cache || (cache = getInst()) : getInst(args);
+    return isTransient ? getInst(args) : cache || (cache = getInst());
   }
 
   // Initialises or re-initialises the state of the dependency.
@@ -90,15 +90,17 @@ function register (that, name, func) {
     func = ensureFunc(func);
     cache = undefined;
     deps = parseDepsFromFunc(func);
-    isCtor = regexCtor.test(name);
-    isSingleton = regexSingleton.test(name);
   }
 
   // Initialse variables for the dependency.
   init(func);
 
+  // Name semantics.
+  isCtor = regexCtor.test(name);
+  isTransient = regexTransient.test(name);
+
   // Removes the $ from the beginning of the name.
-  name = isSingleton ? name.substring(1) : name;
+  name = isTransient ? name.substring(1) : name;
 
   // Ensure if it is labelled as a constructor to make the first character
   // lowercase because it will be called like a function or accessed like
@@ -113,9 +115,9 @@ function register (that, name, func) {
     enumerable: true,
 
     get: function () {
-      return isSingleton ? resolveInst() : function (args) {
+      return isTransient ? function (args) {
         return resolveInst(args);
-      };
+      } : resolveInst();
     },
 
     set: init
