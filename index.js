@@ -22,7 +22,10 @@ function parseArgsFromFunc (func) {
 }
 
 function parseDepsFromFunc (func) {
-  return parseArgsFromFunc(func);
+  var index = 0;
+  return parseArgsFromFunc(func).map(function (arg) {
+    return arg[0] === '$' ? arg.substring(1) : index++;
+  });
 }
 
 function applyCtor (Ctor, args) {
@@ -55,9 +58,9 @@ function register (that, name, func) {
   // Returns the dependencies of the current dependency and merges in any
   // supplied, named arguments. Arguments take precedence over dependencies
   // in the container.
-  function getDeps (args) {
+  function resolveDeps (args) {
     return deps.map(function (dep) {
-      if (args && args[dep]) {
+      if (typeof dep === 'number') {
         return args[dep];
       }
 
@@ -74,7 +77,7 @@ function register (that, name, func) {
   // Returns a dependency. It checks to see if it's a constructor function
   // or a regular function and calls it accordingly.
   function getInst (args) {
-    args = getDeps(args);
+    args = resolveDeps(args);
     return isCtor ? applyCtor(func, args) : func.apply(process, args);
   }
 
@@ -115,8 +118,8 @@ function register (that, name, func) {
     enumerable: true,
 
     get: function () {
-      return isTransient ? function (args) {
-        return resolveInst(args);
+      return isTransient ? function () {
+        return resolveInst(arguments);
       } : resolveInst();
     },
 

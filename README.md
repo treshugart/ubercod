@@ -32,7 +32,7 @@ var app = uber({
   // The dollar "$" means "transient", or not a singleton.
   // Lowercase "e" means "function", or "not constructible".
   $exclamation: function (str) {
-    return str + '!';
+    return '¡' + str + '!';
   },
 
   // Same naming semantics as "exclamation".
@@ -41,11 +41,11 @@ var app = uber({
   // This means that you can call it like "app.hello({ str: 'string' })" and
   // "string" would be passed as the second argument automatically.
   $hello: function ($exclamation, str) {
-    return 'Hello, ' + exclamation({ str: str });
+    return exclamation({ str: 'Hello, ' + str });
   }
 });
 
-// "Hello, World!"
+// "¡Hello, World!"
 app.phrase.hello({ str: 'World' });
 ```
 

@@ -60,8 +60,8 @@ mocha.describe('functions', function () {
 mocha.describe('dependencies', function () {
   mocha.it('should resolve depenencies based on argument names', function () {
     var di = uber({
-      dep1: function (dep2) {
-        return dep2;
+      dep1: function ($dep2) {
+        return $dep2;
       },
       dep2: function () {
         return {};
@@ -71,11 +71,11 @@ mocha.describe('dependencies', function () {
     expect(di.dep1).to.equal(di.dep2);
   });
 
-  mocha.it('should allow you pass named parameters', function () {
+  mocha.it('should allow you pass parameters', function () {
     var di = uber({
-      $dep1: function (dep2, dep3) {
+      $dep1: function ($dep2, dep3) {
         return {
-          dep2: dep2,
+          dep2: $dep2,
           dep3: dep3
         };
       },
@@ -87,11 +87,7 @@ mocha.describe('dependencies', function () {
     var dep3 = {};
     expect(di.dep1().dep2).to.equal(di.dep2);
     expect(di.dep1().dep3).to.equal(undefined);
-    expect(di.dep1({ dep2: dep3 }).dep2).to.equal(dep3);
-    expect(di.dep1({ dep2: dep3 }).dep3).to.equal(undefined);
-    expect(di.dep1({ dep3: dep3 }).dep2).to.equal(di.dep2);
-    expect(di.dep1({ dep3: dep3 }).dep3).to.equal(dep3);
-    expect(di.dep1({ dep2: 2, dep3: 3}).dep2).to.equal(2);
-    expect(di.dep1({ dep2: 2, dep3: 3}).dep3).to.equal(3);
+    expect(di.dep1(dep3).dep2).to.equal(di.dep2);
+    expect(di.dep1(dep3).dep3).to.equal(dep3);
   });
 });
