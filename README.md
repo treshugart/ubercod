@@ -41,12 +41,12 @@ var app = uber({
   // This means that you can call it like "app.hello({ str: 'string' })" and
   // "string" would be passed as the second argument automatically.
   $hello: function ($exclamation, str) {
-    return exclamation({ str: 'Hello, ' + str });
+    return exclamation('Hello, ' + str);
   }
 });
 
 // "¡Hello, World!"
-app.phrase.hello({ str: 'World' });
+app.phrase.hello('World');
 ```
 
 You can even chain containers:
