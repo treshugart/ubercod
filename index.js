@@ -67,11 +67,7 @@ function register (that, name, func) {
       dep = that[dep];
 
       if (dep) {
-        if (typeof dep === 'function') {
-          return dep();
-        } else {
-          return dep;
-        }
+        return dep;
       }
     });
   }
