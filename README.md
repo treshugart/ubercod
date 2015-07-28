@@ -26,7 +26,7 @@ var app = uber({
   // When an argument is prefixed with "$" it means that it should look for a
   // dependency with the same name.
   Phrase: function ($hello) {
-    this.hello = hello;
+    this.hello = $hello;
   },
 
   // The dollar "$" means "transient", or not a singleton.
@@ -41,7 +41,7 @@ var app = uber({
   // This means that you can call it like "app.hello({ str: 'string' })" and
   // "string" would be passed as the second argument automatically.
   $hello: function ($exclamation, str) {
-    return exclamation('Hello, ' + str);
+    return $exclamation('Hello, ' + str);
   }
 });
 
