@@ -38,7 +38,7 @@ var app = uber({
   // Same naming semantics as "exclamation".
   // The "exclamation" argument will resolve to a dependency because its name
   // matches a dependency with the same name will and be automatically injected.
-  // This means that you can call it like "app.hello({ str: 'string' })" and
+  // This means that you can call it like "app.hello('string')" and
   // "string" would be passed as the second argument automatically.
   $hello: function ($exclamation, str) {
     return $exclamation('Hello, ' + str);
