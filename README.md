@@ -20,7 +20,7 @@ The API consists of a single function that takes an object. The keys are the dep
 var uber = require('ubercod');
 var app = uber({
   // Uppercase "P" means "Constructor", do not call as a function.
-  // "$Phrase" becomes "phrase" because the name is normalised after parsing
+  // "Phrase" becomes "phrase" because the name is normalised after parsing
   // for meaningful tokens. The "hello" argument resolves to the "hello"
   // dependency since their names match.
   // When an argument is prefixed with "$" it means that it should look for a
