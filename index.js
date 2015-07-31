@@ -125,17 +125,15 @@ function register (that, name, func) {
   });
 }
 
-module.exports = function (that, registry) {
-  if (registry === undefined) {
-    registry = that;
-    that = {};
-  }
-
-  for (var name in registry) {
-    if (Object.prototype.hasOwnProperty.call(registry, name)) {
-      register(that, name, registry[name]);
+module.exports = function (registry) {
+  return function (overrides) {
+    overrides = overrides || {};
+    var that = {};
+    for (var name in registry) {
+      if (Object.prototype.hasOwnProperty.call(registry, name)) {
+        register(that, name, overrides[name] || registry[name]);
+      }
     }
-  }
-
-  return that;
+    return that;
+  };
 };
